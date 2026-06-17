@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Integration Testing Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 90%;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Integration Testing Example</h2>
+
+<input
+    type="text"
+    id="name"
+    placeholder="Enter Name"
+>
+
+<button onclick="testIntegration()">
+    Test API Integration
+</button>
+
+<div id="result"></div>
+
+<script>
+async function testIntegration() {
+
+    const name =
+        document.getElementById("name").value;
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/users",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify({
+                    name: name
+                })
+            }
+        );
+
+        const data =
+            await response.json();
+
+        document.getElementById(
+            "result"
+        ).innerHTML =
+            "✅ Integration Test Passed<br>" +
+            JSON.stringify(data);
+
+    } catch (error) {
+
+        document.getElementById(
+            "result"
+        ).innerHTML =
+            "❌ Integration Test Failed";
+    }
+}
+</script>
+
+</body>
+</html>
